@@ -1,26 +1,31 @@
-///////////////////////////////////server////////////////
+///////////////////////////////////server/////////////////////////////////////////
 #include"../header/sheader.h"
 
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
-void send_rejection_message(char *s, int uid){
+void send_rejection_message(char *s, int uid)
+{
 	pthread_mutex_lock(&clients_mutex);
 
-	for(int i=0; i<MAX_CLIENTS; ++i){
-		if(clients[i]){
-			if(clients[i]->uid == uid){
-				if(write(clients[i]->sockfd, s, strlen(s)) < 0){
+	for(int i=0; i<MAX_CLIENTS; ++i)
+	{
+		if(clients[i])
+		{
+			if(clients[i]->uid == uid)
+			{
+				if(write(clients[i]->sockfd, s, strlen(s)) < 0)
+				{
 					perror("ERROR: write to descriptor failed");
 					break;
 				}
 			}
 		}
 	}
-
 	pthread_mutex_unlock(&clients_mutex);
 }
 
 
-void *handle_client(void *arg){
+void *handle_client(void *arg)
+{
 	char buff_out[BUFFER_SZ];
 	char name[32];  
 	int leave_flag = 0;
@@ -32,42 +37,39 @@ void *handle_client(void *arg){
 	client_t *cli = (client_t *)arg;
 
 	// Name of client 
-	if(recv(cli->sockfd, name, 32, 0) <= 0 || strlen(name) <  2 || strlen(name) >= 32-1){
+	if(recv(cli->sockfd, name, 32, 0) <= 0 || strlen(name) <  2 || strlen(name) >= 32-1)
+	{
 	//	printf("Name should be greater than 2 and smaller than 32 characters. Try rejoining ...\n");
 		leave_flag = 1;
-	} else{
+	} 
+	else
+	{
 		strcpy(cli->name, name);
 
 		int count =0; //name is done 0 for pass 
 
 		bzero(buff_out, BUFFER_SZ);
+		
 		while(1){
-				if (leave_flag) {
+				if (leave_flag) 
+				{
 					break;
 				}
 
 				int receive = recv(cli->sockfd, buff_out, BUFFER_SZ, 0);
-				if (receive > 0){
-
-
-						if(count==0){
-
-//	pthread_mutex_lock(&clients_mutex);
-//
-//
+				if (receive > 0)
+				{
+						if(count==0)
+						{
 							bzero(buff_out,BUFFER_SZ);
-							sprintf(buff_out,"name is taken already . Enter the pass now %s :",cli->name);
+							sprintf(buff_out,"name is taken already. Enter the pass now %s :",cli->name);
 							send_rejection_message(buff_out,cli->uid);
 							bzero(buff_out,BUFFER_SZ);
-			//	count++;
-
-
 
 							recv(cli->sockfd,buff_out,BUFFER_SZ,0);
 							strcpy(cli->pass,buff_out);
 							bzero(buff_out,BUFFER_SZ);
 							printf("pass taken pass = %s \n",cli->pass);
-
 
 							sprintf(buff_out,"%s are u new user or old ? give 'o' or 'n' only :  ",cli->name);
 							send_rejection_message(buff_out,cli->uid);
@@ -79,63 +81,56 @@ void *handle_client(void *arg){
 
 							count++;
 							char d; d= chc[strlen(chc)-2];    printf("  d= %c  \n",d);
-								if(d=='n'){
-
-
-			
-										fpass= fopen("../data/passfile.txt","a+");
-										fputs(cli->pass,fpass);
-										fputs("\n",fpass);
-										fclose(fpass);
-									}
-
-								else {
-
-										int flag=0;
+								if(d=='n')
+								{
+									fpass= fopen("../data/passfile.txt","a+");
+									fputs(cli->pass,fpass);
+									fputs("\n",fpass);
+									fclose(fpass);
+								}
+								else 
+								{
+									int flag=0;
 
 //open file of password and check if name and password is correct
-										fpass = fopen("../data/passfile.txt","r");
-										while(1){
-												char pass_str[100];
+									fpass = fopen("../data/passfile.txt","r");
+									while(1)
+									{
+										char pass_str[100];
 
-												if(fgets(pass_str,100,fpass)==NULL)
-													break;
-												else {		
-
-													if(strcmp(cli->pass,pass_str)==0)
-														{
-															flag=0;
-															printf("Found \n"); 
-															break;
-														}
-													else flag=1;
-
-												}
-										}
-
-										if(flag==1)
+										if(fgets(pass_str,100,fpass)==NULL)
+											break;
+										else 
+										{		
+											if(strcmp(cli->pass,pass_str)==0)
 											{
-							//printf("Destroy the thread here  match not found \n");
-												bzero(buff_out,BUFFER_SZ);
-												sprintf(buff_out,"%s denied joining, pass wrong ",cli->name);
-												send_rejection_message(buff_out,cli->uid);
-												bzero(buff_out,BUFFER_SZ);
-												close(cli->sockfd);
-  												queue_remove(cli->uid);
-  												free(cli);
-  												cli_count--;
-  												pthread_detach(pthread_self());
-
-												return NULL;
+												flag=0;
+												printf("Found \n"); 
+												break;
+											}
+											else flag=1;
 										}
+									}
 
+									if(flag==1)
+									{
+							//printf("Destroy the thread here  match not found \n");
+										bzero(buff_out,BUFFER_SZ);
+										sprintf(buff_out,"%s denied joining, pass wrong ",cli->name);
+										send_rejection_message(buff_out,cli->uid);
+										bzero(buff_out,BUFFER_SZ);
+										close(cli->sockfd);
+  										queue_remove(cli->uid);
+										free(cli);
+  										cli_count--;
+  										pthread_detach(pthread_self());
 
+										return NULL;
+									}
 
 								}
 
-  //     pthread_mutex_unlock(&clients_mutex);
-
-						}
+  //     pthread_mutex_unlock(&clients_mutex);		}
 
 						if(strlen(buff_out) > 0 && count==1){
 				
