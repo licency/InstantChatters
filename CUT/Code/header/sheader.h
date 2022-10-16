@@ -22,6 +22,7 @@ typedef struct
     int sockfd;
     int uid;
     char name[32];
+    char pass[10];
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
