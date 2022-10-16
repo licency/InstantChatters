@@ -2,7 +2,7 @@
 #include"../header/sheader.h"
 
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
-void send_rejection_message(char *s, int uid)
+void send_individual_client_message(char *s, int uid)
 {
 	pthread_mutex_lock(&clients_mutex);
 
@@ -63,7 +63,7 @@ void *handle_client(void *arg)
 						{
 							bzero(buff_out,BUFFER_SZ);
 							sprintf(buff_out,"name is taken already. Enter the pass now %s :",cli->name);
-							send_rejection_message(buff_out,cli->uid);
+							send_individual_client_message(buff_out,cli->uid);
 							bzero(buff_out,BUFFER_SZ);
 
 							recv(cli->sockfd,buff_out,BUFFER_SZ,0);
@@ -72,7 +72,7 @@ void *handle_client(void *arg)
 							printf("pass taken pass = %s \n",cli->pass);
 
 							sprintf(buff_out,"%s are u new user or old ? give 'o' or 'n' only :  ",cli->name);
-							send_rejection_message(buff_out,cli->uid);
+							send_individual_client_message(buff_out,cli->uid);
 							bzero(buff_out,BUFFER_SZ);
 
 							char chc[32];
@@ -117,7 +117,7 @@ void *handle_client(void *arg)
 							//printf("Destroy the thread here  match not found \n");
 										bzero(buff_out,BUFFER_SZ);
 										sprintf(buff_out,"%s denied joining, pass wrong ",cli->name);
-										send_rejection_message(buff_out,cli->uid);
+										send_individual_client_message(buff_out,cli->uid);
 										bzero(buff_out,BUFFER_SZ);
 										close(cli->sockfd);
   										queue_remove(cli->uid);
@@ -137,7 +137,7 @@ void *handle_client(void *arg)
 						//new 4 lines
 							bzero(buff_out,BUFFER_SZ);
 							sprintf(buff_out,"%s Thanks for credentials , Enjoy chatting !!! \n",cli->name);
-							send_rejection_message(buff_out,cli->uid);
+							send_individual_client_message(buff_out,cli->uid);
 							bzero(buff_out,BUFFER_SZ);
 							count++;
 				
