@@ -95,7 +95,7 @@ void *handle_client(void *arg)
 						int flag=0;
 
 //open file of password and check if name and password is correct
-						fpass = fopen("../data/passfile.txt","r");
+						fpass = fopen("../data/passfile.txt","a+");
 						while(1)
 						{
 							char pass_str[100];
