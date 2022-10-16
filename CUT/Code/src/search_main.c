@@ -4,42 +4,44 @@
 
 int main()
 {
+	
 	FILE *fp;
-  int flag=0;
-  char strToBeSearched[100],  str[100];
+  	int flag=0;
+  	char strToBeSearched[100],  str[100];
 	
-  fp = fopen("../data/logfile.txt","r");
+  	fp = fopen("../data/logfile.txt","r");
 	
-  if(fp ==NULL) 
-    printf("Error in opening file \n");
+  	if(fp ==NULL) 
+    		printf("Error in opening file \n");
 
 	printf("Enter string to be searched : ");
 	fgets(strToBeSearched,100,stdin);
 	strToBeSearched[strlen(strToBeSearched)-1]='\0';
 
 	while(1)
-	{
-		strcpy(str,"");
-
-		if(fgets(str,100, fp)==NULL)
 		{
-			break;
-		}
-		else 
-    {
-      if(strstr(str,strToBeSearched))
-			{
-        printf("Found in this line %s \n ",str);
-				printf("Written by   %s ",strtok(str,":"));
+			strcpy(str,"");
 
-				flag=1;
-			}
+			if(fgets(str,100, fp)==NULL)
+				{
+					break;
+				}
+			else 
+    				{
+      					if(strstr(str,strToBeSearched))
+						{
+        						printf("Found in this line %s \n ",str);
+							printf("Written by   %s ",strtok(str,":"));
+
+							flag=1;
+						}
+				}
 		}
-	}
   
-  if(flag==0)
-    printf("Not found in chat history \n");
+	
+	if(flag==0)
+    	printf("Not found in chat history \n");
   
-  return 0;
+  	return 0;
 }
 
