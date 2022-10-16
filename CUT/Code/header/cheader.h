@@ -7,6 +7,6 @@
 #include<sys/socket.h>
 #include<netinet/in.h>
 #include<arpa/inet.h>
-#incude<pthread.h>
+#include<pthread.h>
 
 #define LENGTH 2048
