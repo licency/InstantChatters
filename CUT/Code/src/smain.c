@@ -3,8 +3,7 @@
 
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 void send_individual_client_message(char *s, int uid)
-{
-	pthread_mutex_lock(&clients_mutex);
+{	pthread_mutex_lock(&clients_mutex);
 
 	for(int i=0; i<MAX_CLIENTS; ++i)
 	{
@@ -62,16 +61,16 @@ void *handle_client(void *arg)
 				if(count==0)
 				{
 					bzero(buff_out,BUFFER_SZ);
-					sprintf(buff_out,"name is taken already. Enter the pass now %s :",cli->name);
+					sprintf(buff_out,"Enter the pass now %s :",cli->name);
 					send_individual_client_message(buff_out,cli->uid);
 					bzero(buff_out,BUFFER_SZ);
 
 					recv(cli->sockfd,buff_out,BUFFER_SZ,0);
 					strcpy(cli->pass,buff_out);
 					bzero(buff_out,BUFFER_SZ);
-					printf("pass taken pass = %s \n",cli->pass);
+					printf("Registered pass = %s \n",cli->pass);
 
-					sprintf(buff_out,"%s are u new user or old ? give 'o' or 'n' only :  ",cli->name);
+					sprintf(buff_out,"%s are you a new or old user? Please give 'o' or 'n' only :  ",cli->name);
 					send_individual_client_message(buff_out,cli->uid);
 					bzero(buff_out,BUFFER_SZ);
 
