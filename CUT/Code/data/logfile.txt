@@ -1,0 +1,15 @@
+user2: hey
+user1: hello
+user2: how are you
+user1: Good
+user1: And what about you?
+user2: I'm good.
+user2: Ok. Talk to you later
+user1: Bye
+user3: Good to see you
+user4: Yeah
+user5: Hello again
+user4: Hii all
+user3: How is everything going?
+user5: Everything is going on smoothly
+user4: Good to know
