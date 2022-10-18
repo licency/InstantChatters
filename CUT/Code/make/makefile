@@ -1,5 +1,5 @@
 server: smain.o  
-  gcc ../obj/smain.o  -o ../bin/server
+  	gcc ../obj/smain.o  -o ../bin/server
   
 client: cmain.o
 	gcc ../obj/cmain.o ../header/cheader.h -o ../bin/client
