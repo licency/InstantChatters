@@ -76,11 +76,11 @@ void *handle_client(void *arg)
 
 					char chc[32];
 					recv(cli->sockfd,chc,32,0);
-					printf("  chc = %s  ", chc);
+					//printf("  chc = %s  ", chc);
 
 					count++;
 					char d; d= chc[strlen(chc)-2];    
-					printf("  d = %c  \n",d);
+					//printf("  d = %c  \n",d);
 								
 					if(d=='n')
 					{
@@ -134,7 +134,7 @@ void *handle_client(void *arg)
   //     pthread_mutex_unlock(&clients_mutex);	
 				}
 
-				if(strlen(buff_out) > 0 && count==1)
+				if( count==1)
 				{
 					bzero(buff_out,BUFFER_SZ);
 					sprintf(buff_out,"%s Thanks for credentials , Enjoy chatting !!! \n",cli->name);
@@ -376,7 +376,7 @@ int main(int argc, char **argv)
 		cli->uid = uid++;
 
 		/* Add client to the queue and fork thread */
-		print_client_addr(cli_addr);
+		//print_client_addr(cli_addr);
 
 		queue_add(cli);
 
