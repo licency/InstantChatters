@@ -12,7 +12,7 @@
         return CU_get_error();
     
     pSuite1 = CU_add_suite("Name valid or invalid", init_suite_func1, clean_suite_func1);
-    pSuite2 = CU_add_suite("Name valid or invalid", init_suite_func2, clean_suite_func2);
+    pSuite2 = CU_add_suite("Password valid or invalid", init_suite_func2, clean_suite_func2);
     
     if (NULL == pSuite1)
     {
