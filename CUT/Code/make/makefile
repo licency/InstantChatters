@@ -1,3 +1,14 @@
+#compiler
+GCC = gcc
+#output file
+LFLAGS = -o
+#binary file directory
+BIN = ../bin
+#source file directory
+SRC = ../src
+
+
+
 server: smain.o  
   	gcc ../obj/smain.o  -o ../bin/server
   
