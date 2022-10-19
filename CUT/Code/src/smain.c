@@ -1,7 +1,12 @@
 ///////////////////////////////////server////////////////
+
 #include"../header/sheader.h"
 
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+/*
+This function finds client through cli->uid and then sends message to that particular client only
+*/
 void send_individual_client_message(char *s, int uid){
 	pthread_mutex_lock(&clients_mutex);
 
@@ -20,14 +25,15 @@ void send_individual_client_message(char *s, int uid){
 }
 
 
+/*
+This acts as bridge between client and server. It calls multiple functions to send and receive message from client,
+mainatins chat history and validate clients credential.
+*/
 void *handle_client(void *arg){
 	char buff_out[BUFFER_SZ];
 	char name[32];  
 	int leave_flag = 0;
-
-	FILE *fp,*fpass;
-
-	
+	FILE *fp,*fpass;	
 	cli_count++;
 	client_t *cli = (client_t *)arg;
 
@@ -48,26 +54,16 @@ void *handle_client(void *arg){
 
 				int receive = recv(cli->sockfd, buff_out, BUFFER_SZ, 0);
 				if (receive > 0){
-
-
 						if(count==0){
-
-
-
-//
 							bzero(buff_out,BUFFER_SZ);
 							sprintf(buff_out,"Enter the pass now %s :",cli->name);
 							send_individual_client_message(buff_out,cli->uid);
 							bzero(buff_out,BUFFER_SZ);
-			//	count++;
-
-
-
+			
 							recv(cli->sockfd,buff_out,BUFFER_SZ,0);
 							strcpy(cli->pass,buff_out);
 							bzero(buff_out,BUFFER_SZ);
 							printf("clients credential = %s \n",cli->pass);
-
 
 							sprintf(buff_out,"%s are you a new or old user? Please give 'o' or 'n' only :  ",cli->name);
 							send_individual_client_message(buff_out,cli->uid);
@@ -76,24 +72,19 @@ void *handle_client(void *arg){
 							char chc[32];
 							recv(cli->sockfd,chc,32,0);
 					
-
 							count++;
 							char d; d= chc[strlen(chc)-2];   // printf("  d= %c  \n",d);
 								if(d=='n'){
-
-
-			
 										fpass= fopen("../data/passfile.txt","a+");
 										fputs(cli->pass,fpass);
 										fputs("\n",fpass);
 										fclose(fpass);
-									}
-
+									   }
 								else {
 
 										int flag=0;
 
-//open file of password and check if name and password is correct
+								//open file of password and check if name and password is correct
 										fpass = fopen("../data/passfile.txt","r");
 										while(1){
 												char pass_str[100];
@@ -115,7 +106,7 @@ void *handle_client(void *arg){
 
 										if(flag==1)
 											{
-							//printf("Destroy the thread here  match not found \n");
+											//printf("Destroy the thread here  match not found \n");
 												bzero(buff_out,BUFFER_SZ);
 												sprintf(buff_out,"%s denied joining, pass wrong ",cli->name);
 												send_individual_client_message(buff_out,cli->uid);
@@ -129,44 +120,31 @@ void *handle_client(void *arg){
 												return NULL;
 										}
 
-
-
 								}
-
-  
 
 						}
 
-						if(count==1){   // after initials of clients taken
-				
-						
-							bzero(buff_out,BUFFER_SZ);
-							sprintf(buff_out,"%s Thanks for credentials , Enjoy chatting !!! \n",cli->name);
-							send_individual_client_message(buff_out,cli->uid);
-							bzero(buff_out,BUFFER_SZ);
-							count++;
-				
+						if(count==1){   // after initials of clients taken						
+								bzero(buff_out,BUFFER_SZ);
+								sprintf(buff_out,"%s Thanks for credentials , Enjoy chatting !!! \n",cli->name);
+								send_individual_client_message(buff_out,cli->uid);
+								bzero(buff_out,BUFFER_SZ);
+								count++;
 						}
 
 
 
 						if(strlen(buff_out) > 0 && count>1){
+									send_message(buff_out, cli->uid);
+									str_trim_lf(buff_out, strlen(buff_out));
+						
+									//maintaining chat history inside txt file			
+									fp =fopen("../data/logfile.txt","a+");
+									fputs(buff_out , fp);
+									fputs("\n",fp);
+									fclose(fp);
+								}
 					
-				
-							send_message(buff_out, cli->uid);
-
-							str_trim_lf(buff_out, strlen(buff_out));
-	
-			
-						//maintaining chat history inside txt file			
-							fp =fopen("../data/logfile.txt","a+");
-							fputs(buff_out , fp);
-							fputs("\n",fp);
-							fclose(fp);
-
-
-
-						}
 			} else if (receive == 0 || strcmp(buff_out, "exit") == 0){
 					sprintf(buff_out, "%s has left\n", cli->name);
 					printf("%s", buff_out);
@@ -180,7 +158,7 @@ void *handle_client(void *arg){
 			bzero(buff_out, BUFFER_SZ);
 			}
 
-  /* Delete client from queue and yield thread */
+ 			 /* Delete client from queue and yield thread */
 			close(cli->sockfd);
 			queue_remove(cli->uid);
 			free(cli);
@@ -229,9 +207,6 @@ void queue_add(client_t *cl){
 			break;
 		}
 	}
-
-
-
 
 	//////////////adding active list///////////////
 	printf("\n Active users are :  ");
@@ -290,10 +265,6 @@ void send_message(char *s, int uid){
 
 	pthread_mutex_unlock(&clients_mutex);
 }
-
-
-
-
 
 
 
@@ -363,25 +334,10 @@ int main(int argc, char **argv){
 		cli->sockfd = connfd;
 		cli->uid = uid++;
 
-		/* Add client to the queue and fork thread */
-	//	print_client_addr(cli_addr);
-
-
-
+		/* Add client to the queue and fork thread*/
 		queue_add(cli);
 
 		pthread_create(&tid, NULL, &handle_client, (void*)cli);
-		
-
-
-
-
-
-
-
-
-
-
 
 		/* Reduce CPU usage */
 		sleep(1);
@@ -389,4 +345,3 @@ int main(int argc, char **argv){
 
 	return EXIT_SUCCESS;
 }
-
