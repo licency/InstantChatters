@@ -6,17 +6,25 @@ LFLAGS = -o
 BIN = ../bin
 #source file directory
 SRC = ../src
+#object file directory
+OBJ = ../obj
+#header file directory
+HDR = ../header
 
+#compile all source file
+all: buildserver buildclient search
 
-
-server: smain.o  
-  	gcc ../obj/smain.o  -o ../bin/server
+buildserver: $(OBJ)/smain.o  
+  	$(GCC) $(LFLAGS) $(BIN)/server $(OBJ)/smain.o  $(HDR)/sheader.h
   
-client: cmain.o
-	gcc ../obj/cmain.o ../header/cheader.h -o ../bin/client
+buildclient: $(OBJ)/cmain.o
+	$(GCC) $(LFLAGS) $(BIN)/client $(OBJ)/cmain.o $(HDR)/cheader.h
 
-smain.o: ../src/smain.c
-	gcc ../src/smain.c -c -Wall -o ../obj/smain.o
+$(OBJ)/smain.o: $(SRC)/smain.c
+	$(GCC) -c $(LFLAGS) $(OBJ)/smain.o $(SRC)/smain.c
 
-cmain.o: ../src/cmain.c
-	gcc  ../src/cmain.c -c -Wall  -o ../obj/cmain.o
+$(OBJ)/cmain.o: $(SRC)/cmain.c
+	$(GCC) -c $(LFLAGS) $(OBJ)/cmain.o  $(SRC)/cmain.c
+
+search: $(SRC)/search_main.c
+	$(GCC) -c $(LFLAGS) $(SRC)/search_main.c
