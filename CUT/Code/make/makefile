@@ -27,4 +27,4 @@ $(OBJ)/cmain.o: $(SRC)/cmain.c
 	$(GCC) -c $(LFLAGS) $(OBJ)/cmain.o  $(SRC)/cmain.c
 
 search: $(SRC)/search_main.c
-	$(GCC) -c $(LFLAGS) $(BIN)/search $(SRC)/search_main.c
+	$(GCC) $(LFLAGS) $(BIN)/search $(SRC)/search_main.c
