@@ -14,8 +14,8 @@ HDR = ../header
 #compile all source file
 all: buildserver buildclient search
 
-buildserver: $(OBJ)/smain.o  
-  	$(GCC) $(LFLAGS) $(BIN)/server $(OBJ)/smain.o  $(HDR)/sheader.h
+buildserver: $(OBJ)/smain.o
+	$(GCC) $(LFLAGS) $(BIN)/server $(OBJ)/smain.o  $(HDR)/sheader.h
   
 buildclient: $(OBJ)/cmain.o
 	$(GCC) $(LFLAGS) $(BIN)/client $(OBJ)/cmain.o $(HDR)/cheader.h
