@@ -1,4 +1,8 @@
-//////////client//////////////////
+/*
+program name : client
+description  : This handles client, makes connection with server and sends and receives messages.
+
+*/
 
 #include"../header/cheader.h"
 
