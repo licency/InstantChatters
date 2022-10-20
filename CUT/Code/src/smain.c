@@ -1,4 +1,8 @@
-///////////////////////////////////server////////////////
+/*
+program name :  server
+description : It uses a host and port to create a server.
+
+*/
 
 #include"../header/sheader.h"
 
