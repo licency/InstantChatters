@@ -1,7 +1,11 @@
+/*
+program name : search
+description  : This helps in searching particular string through chat history.
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
 
 /*searches for string, taken from user, in chat history file. */
 int main()
