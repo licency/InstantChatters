@@ -55,3 +55,7 @@ header/cheader.h:4: Include file <unistd.h> matches the name of a POSIX
 
 
 Finished checking --- 6 code warnings
+cg83-user22@instance-1:~/Instant Chatters/CUT/Code$ splint search main.c -nullpass -retvalother Splint 3.1.2 --- 21 Feb 2021
+
+search main.c: (in function main) search_main.c:21:8: Test expression for while not boolean, type int: 1 Test expression type is not boolean or int.
+(Use -predboolint to inhibit warning)
