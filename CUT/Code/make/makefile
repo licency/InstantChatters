@@ -28,3 +28,10 @@ $(OBJ)/cmain.o: $(SRC)/cmain.c
 
 search: $(SRC)/search_main.c
 	$(GCC) $(LFLAGS) $(BIN)/search $(SRC)/search_main.c
+
+clean: 
+	rm $(BIN)/server
+	rm $(BIN)/client
+	rm $(BIN)/search
+	rm $(OBJ)/smain.o
+	rm $(OBJ)/cmain.o
