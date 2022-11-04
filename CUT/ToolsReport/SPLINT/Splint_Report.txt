@@ -1,0 +1,56 @@
+cg83-user22@instance-1:~/InstantChatters/CUT/Code$ splint -predboolint -unrecog -I../header ./src/smain.c
+Splint 3.1.2 --- 21 Feb 2021
+
+src/smain.c:1: Include file <sys/socket.h> matches the name of a POSIX
+    library, but the POSIX library is not being used.  Consider using +posixlib
+    or +posixstrictlib to select the POSIX library, or -warnposix to suppress
+    this message.
+  Header name matches a POSIX header, but the POSIX library is not selected.
+  (Use -warnposixheaders to inhibit warning)
+src/smain.c:1: Include file <netinet/in.h> matches the name of a POSIX
+    library, but the POSIX library is not being used.  Consider using +posixlib
+    or +posixstrictlib to select the POSIX library, or -warnposix to suppress
+    this message.
+src/smain.c:5: Include file <unistd.h> matches the name of a POSIX library,
+    but the POSIX library is not being used.  Consider using +posixlib or
+    +posixstrictlib to select the POSIX library, or -warnposix to suppress this
+    message.
+< Location unknown >: Field name reused:
+  Code cannot be parsed.  For help on parse errors, see splint -help
+  parseerrors. (Use -syntax to inhibit warning)
+< Location unknown >: Previous use of
+src/server.c: (in function main)
+
+src/server.c:85:2: Return value (type int) ignored: bind(fd, (struct...
+  Result returned by function call is not used. If this is intended, can cast
+  result to (void) to eliminate message. (Use -retvalint to inhibit warning)
+
+  This code will never be reached on any possible execution. (Use -unreachable
+  to inhibit warning)
+
+Finished checking --- 8 code warnings
+cg83-user35@instance-1:~/Language-Translator/Harshit Sprint_2/CUT/Code$ splint  -warnposix -I ./src/client.c
+Splint 3.1.2 --- 21 Feb 2021
+
+Finished checking --- no code processed
+cg83-user35@instance-1:~/Language-Translator/Harshit Sprint_2/CUT/Code$ splint -predboolint -unrecog -I../header ./src/client.c
+Splint 3.1.2 --- 21 Feb 2021
+
+src/client.c:1: Include file <sys/socket.h> matches the name of a POSIX
+    library, but the POSIX library is not being used.  Consider using +posixlib
+    or +posixstrictlib to select the POSIX library, or -warnposix to suppress
+    this message.
+  Header name matches a POSIX header, but the POSIX library is not selected.
+  (Use -warnposixheaders to inhibit warning)
+src/client.c:3: Include file <netinet/in.h> matches the name of a POSIX
+    library, but the POSIX library is not being used.  Consider using +posixlib
+    or +posixstrictlib to select the POSIX library, or -warnposix to suppress
+    this message.
+src/client.c:7: Include file <unistd.h> matches the name of a POSIX library,
+    but the POSIX library is not being used.  Consider using +posixlib or
+    +posixstrictlib to select the POSIX library, or -warnposix to suppress this
+    message.
+< Location unknown >: Field name reused:
+
+
+Finished checking --- 6 code warnings
