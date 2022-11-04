@@ -41,5 +41,5 @@ int main()
 	if(flag==0)
 	printf("Not found in chat history \n");
 	
-return 0;
+return 0; 
 }
