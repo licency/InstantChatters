@@ -1,4 +1,4 @@
-cg83-user22@instance-1:~/InstantChatters/CUT/Code$ splint -predboolint -unrecog -I../header ./src/smain.c
+cg83-user22@instance-1:~/InstantChatters/CUT/Code$ splint -predboolint -unrecog -I../header/sheader.h ./src/smain.c
 Splint 3.1.2 --- 21 Feb 2021
 
 src/smain.c:1: Include file <sys/socket.h> matches the name of a POSIX
@@ -15,38 +15,38 @@ src/smain.c:5: Include file <unistd.h> matches the name of a POSIX library,
     but the POSIX library is not being used.  Consider using +posixlib or
     +posixstrictlib to select the POSIX library, or -warnposix to suppress this
     message.
-../header/sheader.h:5: Include file <unistd.h> matches the name of a POSIX library, but the POSIX library is not being used. Consider using +posixlib or
+header/sheader.h:5: Include file <unistd.h> matches the name of a POSIX library, but the POSIX library is not being used. Consider using +posixlib or
     +posixstrictlib to select the POSIX library, or -warnposix to suppress this message.
 < Location unknown >: Field name reused:
   Code cannot be parsed.  For help on parse errors, see splint -help
   parseerrors. (Use -syntax to inhibit warning)
 < Location unknown >: Previous use of
-src/server.c: (in function main)
+src/smain.c: (in function main)
 
-src/server.c:85:2: Return value (type int) ignored: bind(fd, (struct...
+src/smain.c:85:2: Return value (type int) ignored: bind(fd, (struct...
   Result returned by function call is not used. If this is intended, can cast
   result to (void) to eliminate message. (Use -retvalint to inhibit warning)
   
 
 Finished checking --- 8 code warnings
-cg83-user35@instance-1:~/Language-Translator/Harshit Sprint_2/CUT/Code$ splint  -warnposix -I ./src/client.c
+cg83-user22@instance-1:~/InstantChatters/CUT/Code$ splint  -warnposix -I ./src/cmain.c
 Splint 3.1.2 --- 21 Feb 2021
 
 Finished checking --- no code processed
-cg83-user35@instance-1:~/Language-Translator/Harshit Sprint_2/CUT/Code$ splint -predboolint -unrecog -I../header ./src/client.c
+cg83-user22@instance-1:~/InstantChatters/CUT/Code$ splint -predboolint -unrecog -I../header/cheader.h ./src/cmain.c
 Splint 3.1.2 --- 21 Feb 2021
 
-src/client.c:1: Include file <sys/socket.h> matches the name of a POSIX
+src/cmain.c:1: Include file <sys/socket.h> matches the name of a POSIX
     library, but the POSIX library is not being used.  Consider using +posixlib
     or +posixstrictlib to select the POSIX library, or -warnposix to suppress
     this message.
   Header name matches a POSIX header, but the POSIX library is not selected.
   (Use -warnposixheaders to inhibit warning)
-src/client.c:3: Include file <netinet/in.h> matches the name of a POSIX
+src/cmain.c:3: Include file <netinet/in.h> matches the name of a POSIX
     library, but the POSIX library is not being used.  Consider using +posixlib
     or +posixstrictlib to select the POSIX library, or -warnposix to suppress
     this message.
-../header/cheader.h:4: Include file <unistd.h> matches the name of a POSIX
+header/cheader.h:4: Include file <unistd.h> matches the name of a POSIX
     library, but the POSIX library is not being used. Consider using +posixlib or +posixstrictlib to select the POSIX library, or -warnposix to suppress this message.
     Header name matches a POSIX header, but the POSIX library is not selected.
 
@@ -55,6 +55,3 @@ src/client.c:3: Include file <netinet/in.h> matches the name of a POSIX
 
 
 Finished checking --- 6 code warnings
-cg83-user348instance-1:~/Instant Chatters/CUT/Code/src$ splint search main.c -nullpass -retvalother Splint 3.1.2 --- 21 Feb 2021
-
-search main.c: (in function main) search_main.c:21:8: Test expression for while not boolean, type int: 1 Test expression type is not boolean or int. (Use -predboolint to inhibit warning)
